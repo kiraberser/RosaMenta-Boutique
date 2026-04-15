@@ -10,10 +10,12 @@ import { Ventajas } from "@features/home/components/Ventajas";
 export const revalidate = 300;
 
 export default async function HomePage() {
-  const [destacados, categorias] = await Promise.all([
+  const [destacadosResult, categoriasResult] = await Promise.allSettled([
     getDestacados(8),
     getCategorias(),
   ]);
+  const destacados = destacadosResult.status === "fulfilled" ? destacadosResult.value : [];
+  const categorias = categoriasResult.status === "fulfilled" ? categoriasResult.value : [];
 
   return (
     <>

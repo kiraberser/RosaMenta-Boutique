@@ -1,7 +1,7 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
-import { useFormStatus } from "react-dom";
+import { useActionState as reactUseActionState, useEffect, useRef } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
 import { initialActionState } from "@shared/lib/action-types";
 
@@ -24,6 +24,7 @@ type Props = {
   origen?: string;
   variant?: "inline" | "stacked";
 };
+const useActionState = (reactUseActionState ?? useFormState) as typeof useFormState;
 
 export function NewsletterForm({ origen = "FOR", variant = "inline" }: Props) {
   const [state, action] = useActionState(suscribirNewsletterAction, initialActionState);

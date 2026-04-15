@@ -16,7 +16,13 @@ const GRADIENTS = [
 
 export function CategoriasMosaico({ categorias }: { categorias: Categoria[] }) {
   const top = categorias.filter((c) => c.padre == null).slice(0, 6);
-  if (top.length === 0) return null;
+  if (top.length === 0) {
+    return (
+      <div className="rounded-2xl border border-dashed border-neutral-300 p-10 text-center text-sm text-neutral-500">
+        Aun no hay categorias publicadas.
+      </div>
+    );
+  }
 
   return (
     <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">

@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState as reactUseActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useFormState } from "react-dom";
 
 import { initialActionState } from "@shared/lib/action-types";
 
@@ -11,6 +12,7 @@ import { SubmitButton } from "./SubmitButton";
 
 const inputCls =
   "mt-1 w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-rosa-500";
+const useActionState = (reactUseActionState ?? useFormState) as typeof useFormState;
 
 export function RegisterForm() {
   const [state, action] = useActionState(registerAction, initialActionState);
