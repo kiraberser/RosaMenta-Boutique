@@ -103,23 +103,6 @@ export function Hero() {
             </Link>
           </motion.div>
 
-          <motion.dl
-            variants={item}
-            className="mx-auto mt-12 grid max-w-md grid-cols-3 gap-6 text-center lg:mx-0"
-          >
-            {[
-              { k: "+500", v: "piezas curadas" },
-              { k: "24h", v: "envío CDMX" },
-              { k: "MX", v: "100% nacional" },
-            ].map((s) => (
-              <div key={s.v}>
-                <dt className="font-display text-2xl text-rosa-500 sm:text-3xl">{s.k}</dt>
-                <dd className="mt-1 text-[10px] tracking-[0.15em] text-neutral-500">
-                  {s.v.toUpperCase()}
-                </dd>
-              </div>
-            ))}
-          </motion.dl>
         </motion.div>
 
         <motion.div
