@@ -1,12 +1,13 @@
 "use client";
 
-import { useActionState, useRef } from "react";
+import { useRef } from "react";
 import { useFormStatus } from "react-dom";
 
 import {
   createVarianteAction,
   deleteVarianteAction,
 } from "@features/admin/actions/productos";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 type Variante = {
   id: number;
@@ -54,7 +55,7 @@ export function VariantesManager({
   variantes: Variante[];
 }) {
   const formRef = useRef<HTMLFormElement>(null);
-  const [state, action] = useActionState(createVarianteAction, {
+  const [state, action] = useCompatActionState(createVarianteAction, {
     success: false,
     message: "",
   });

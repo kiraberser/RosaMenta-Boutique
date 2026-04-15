@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useActionState, useRef } from "react";
+import { useRef } from "react";
 import { useFormStatus } from "react-dom";
 
 import {
@@ -9,6 +9,7 @@ import {
   setImagenPrincipalAction,
   uploadImagenAction,
 } from "@features/admin/actions/productos";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 type Imagen = {
   id: number;
@@ -51,7 +52,7 @@ export function ImagenUploader({
   imagenes: Imagen[];
 }) {
   const uploadRef = useRef<HTMLFormElement>(null);
-  const [uploadState, uploadAction] = useActionState(uploadImagenAction, {
+  const [uploadState, uploadAction] = useCompatActionState(uploadImagenAction, {
     success: false,
     message: "",
   });

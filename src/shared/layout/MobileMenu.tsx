@@ -13,9 +13,10 @@ type Props = {
   links: NavLink[];
   isAuthed: boolean;
   userName?: string;
+  isStaff?: boolean;
 };
 
-export function MobileMenu({ links, isAuthed, userName }: Props) {
+export function MobileMenu({ links, isAuthed, userName, isStaff = false }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -55,6 +56,17 @@ export function MobileMenu({ links, isAuthed, userName }: Props) {
 
             {isAuthed ? (
               <ul className="space-y-1">
+                {isStaff ? (
+                  <li>
+                    <Link
+                      href="/admin"
+                      onClick={() => setOpen(false)}
+                      className="block rounded-xl bg-rosa-50 px-4 py-3 text-sm font-medium text-rosa-600 hover:bg-rosa-100"
+                    >
+                      Dashboard admin
+                    </Link>
+                  </li>
+                ) : null}
                 <li>
                   <Link
                     href="/cuenta"

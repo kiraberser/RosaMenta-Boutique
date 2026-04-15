@@ -7,7 +7,7 @@ type Paginated<T> = { results: T[]; count: number };
 export async function listDirecciones(): Promise<Direccion[]> {
   try {
     const data = await fetchAPI<Paginated<Direccion> | Direccion[]>(
-      "/usuarios/direcciones/",
+      "/auth/direcciones/",
       { cache: "no-store" },
     );
     return Array.isArray(data) ? data : (data.results ?? []);
@@ -26,12 +26,12 @@ export type DireccionPayload = {
 };
 
 export async function createDireccion(payload: DireccionPayload): Promise<Direccion> {
-  return fetchAPI<Direccion>("/usuarios/direcciones/", {
+  return fetchAPI<Direccion>("/auth/direcciones/", {
     method: "POST",
     body: { pais: "México", ...payload },
   });
 }
 
 export async function deleteDireccion(id: number): Promise<void> {
-  await fetchAPI(`/usuarios/direcciones/${id}/`, { method: "DELETE" });
+  await fetchAPI(`/auth/direcciones/${id}/`, { method: "DELETE" });
 }

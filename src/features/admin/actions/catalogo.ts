@@ -77,19 +77,14 @@ export async function createCategoriaAction(
   }
 }
 
-export async function deleteCategoriaAction(
-  _prev: ActionState,
-  formData: FormData,
-): Promise<ActionState> {
+export async function deleteCategoriaAction(formData: FormData): Promise<void> {
   const id = Number(formData.get("id"));
-  if (!id) return errorState("ID requerido");
+  if (!id) return;
   try {
     await fetchAPI(`/catalogo/categorias/${id}/`, { method: "DELETE" });
     revalidatePath("/admin/catalogo");
-    return okState("Categoría eliminada");
-  } catch (err) {
-    if (err instanceof ApiError) return errorState(err.message);
-    return errorState("Error inesperado");
+  } catch {
+    // noop
   }
 }
 
@@ -120,18 +115,13 @@ export async function createMarcaAction(
   }
 }
 
-export async function deleteMarcaAction(
-  _prev: ActionState,
-  formData: FormData,
-): Promise<ActionState> {
+export async function deleteMarcaAction(formData: FormData): Promise<void> {
   const id = Number(formData.get("id"));
-  if (!id) return errorState("ID requerido");
+  if (!id) return;
   try {
     await fetchAPI(`/catalogo/marcas/${id}/`, { method: "DELETE" });
     revalidatePath("/admin/catalogo");
-    return okState("Marca eliminada");
-  } catch (err) {
-    if (err instanceof ApiError) return errorState(err.message);
-    return errorState("Error inesperado");
+  } catch {
+    // noop
   }
 }

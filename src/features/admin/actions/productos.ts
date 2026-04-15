@@ -65,7 +65,7 @@ export async function createProductoAction(
   });
 
   if (!parsed.success) {
-    return errorState("Revisa los campos", flatten(parsed.error.issues));
+    return errorState<{ id: number }>("Revisa los campos", flatten(parsed.error.issues));
   }
 
   try {
@@ -77,9 +77,9 @@ export async function createProductoAction(
     return okState("Producto creado", { id: created.id });
   } catch (e) {
     if (e instanceof ApiError) {
-      return errorState(e.message, apiErrorToFields(e));
+      return errorState<{ id: number }>(e.message, apiErrorToFields(e));
     }
-    return errorState("No se pudo crear el producto");
+    return errorState<{ id: number }>("No se pudo crear el producto");
   }
 }
 
@@ -121,13 +121,10 @@ export async function updateProductoAction(
   }
 }
 
-export async function toggleActivoAction(
-  _prev: ActionState,
-  formData: FormData,
-): Promise<ActionState> {
+export async function toggleActivoAction(formData: FormData): Promise<void> {
   const id = formData.get("id");
   const activo = formData.get("activo") === "true";
-  if (!id) return errorState("Falta ID");
+  if (!id) return;
 
   try {
     await fetchAPI(`/catalogo/productos/${id}/`, {
@@ -135,10 +132,8 @@ export async function toggleActivoAction(
       body: { activo: !activo },
     });
     revalidatePath(`/admin/productos/${id}`);
-    return okState(activo ? "Producto desactivado" : "Producto activado");
-  } catch (e) {
-    if (e instanceof ApiError) return errorState(e.message);
-    return errorState("No se pudo cambiar el estado");
+  } catch {
+    // noop
   }
 }
 
@@ -172,13 +167,10 @@ export async function uploadImagenAction(
   }
 }
 
-export async function setImagenPrincipalAction(
-  _prev: ActionState,
-  formData: FormData,
-): Promise<ActionState> {
+export async function setImagenPrincipalAction(formData: FormData): Promise<void> {
   const id = formData.get("id");
   const productoId = formData.get("producto_id");
-  if (!id) return errorState("Falta ID");
+  if (!id) return;
 
   try {
     await fetchAPI(`/catalogo/imagenes/${id}/`, {
@@ -186,28 +178,21 @@ export async function setImagenPrincipalAction(
       body: { es_principal: true },
     });
     if (productoId) revalidatePath(`/admin/productos/${productoId}`);
-    return okState("Imagen marcada como principal");
-  } catch (e) {
-    if (e instanceof ApiError) return errorState(e.message);
-    return errorState("No se pudo actualizar");
+  } catch {
+    // noop
   }
 }
 
-export async function deleteImagenAction(
-  _prev: ActionState,
-  formData: FormData,
-): Promise<ActionState> {
+export async function deleteImagenAction(formData: FormData): Promise<void> {
   const id = formData.get("id");
   const productoId = formData.get("producto_id");
-  if (!id) return errorState("Falta ID");
+  if (!id) return;
 
   try {
     await fetchAPI(`/catalogo/imagenes/${id}/`, { method: "DELETE" });
     if (productoId) revalidatePath(`/admin/productos/${productoId}`);
-    return okState("Imagen eliminada");
-  } catch (e) {
-    if (e instanceof ApiError) return errorState(e.message);
-    return errorState("No se pudo eliminar");
+  } catch {
+    // noop
   }
 }
 
@@ -247,21 +232,16 @@ export async function createVarianteAction(
   }
 }
 
-export async function deleteVarianteAction(
-  _prev: ActionState,
-  formData: FormData,
-): Promise<ActionState> {
+export async function deleteVarianteAction(formData: FormData): Promise<void> {
   const id = formData.get("id");
   const productoId = formData.get("producto_id");
-  if (!id) return errorState("Falta ID");
+  if (!id) return;
 
   try {
     await fetchAPI(`/catalogo/variantes/${id}/`, { method: "DELETE" });
     if (productoId) revalidatePath(`/admin/productos/${productoId}`);
-    return okState("Variante eliminada");
-  } catch (e) {
-    if (e instanceof ApiError) return errorState(e.message);
-    return errorState("No se pudo eliminar");
+  } catch {
+    // noop
   }
 }
 

@@ -64,7 +64,7 @@ function apiErrorToFieldErrors(err: ApiError): FieldErrors | undefined {
 
 async function fetchMe(): Promise<Usuario | null> {
   try {
-    return await fetchAPI<Usuario>("/usuarios/me/", { cache: "no-store" });
+    return await fetchAPI<Usuario>("/auth/me/", { cache: "no-store" });
   } catch {
     return null;
   }
@@ -88,7 +88,7 @@ export async function loginAction(
   }
 
   try {
-    const tokens = await fetchAPI<AuthTokens>("/usuarios/login/", {
+    const tokens = await fetchAPI<AuthTokens>("/auth/login/", {
       method: "POST",
       auth: false,
       body: { username: parsed.data.email, password: parsed.data.password },
@@ -127,7 +127,7 @@ export async function registerAction(
     || `user${Date.now()}`;
 
   try {
-    await fetchAPI("/usuarios/register/", {
+    await fetchAPI("/auth/register/", {
       method: "POST",
       auth: false,
       body: {
@@ -141,7 +141,7 @@ export async function registerAction(
         acepta_newsletter: d.suscribir_newsletter ?? false,
       },
     });
-    const tokens = await fetchAPI<AuthTokens>("/usuarios/login/", {
+    const tokens = await fetchAPI<AuthTokens>("/auth/login/", {
       method: "POST",
       auth: false,
       body: { username, password: d.password },
@@ -162,7 +162,7 @@ export async function logoutAction(): Promise<void> {
   const refresh = cookies().get(REFRESH_COOKIE)?.value;
   if (refresh) {
     try {
-      await fetchAPI("/usuarios/logout/", { method: "POST", body: { refresh } });
+      await fetchAPI("/auth/logout/", { method: "POST", body: { refresh } });
     } catch {
       /* igual limpiamos cookies */
     }
@@ -176,7 +176,7 @@ export async function refreshTokenAction(): Promise<boolean> {
   const refresh = cookies().get(REFRESH_COOKIE)?.value;
   if (!refresh) return false;
   try {
-    const res = await fetchAPI<AuthTokens>("/usuarios/token/refresh/", {
+    const res = await fetchAPI<AuthTokens>("/auth/token/refresh/", {
       method: "POST",
       auth: false,
       body: { refresh },

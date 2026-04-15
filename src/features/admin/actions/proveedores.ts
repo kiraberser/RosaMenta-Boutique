@@ -74,13 +74,10 @@ export async function createProveedorAction(
   }
 }
 
-export async function toggleProveedorAction(
-  _prev: ActionState,
-  formData: FormData,
-): Promise<ActionState> {
+export async function toggleProveedorAction(formData: FormData): Promise<void> {
   const id = Number(formData.get("id"));
   const activo = formData.get("activo") === "true";
-  if (!id) return errorState("ID requerido");
+  if (!id) return;
   try {
     await fetchAPI(`/inventario/proveedores/${id}/`, {
       method: "PATCH",
@@ -88,45 +85,33 @@ export async function toggleProveedorAction(
       headers: { "Content-Type": "application/json" },
     });
     revalidatePath("/admin/proveedores");
-    return okState(activo ? "Desactivado" : "Activado");
-  } catch (err) {
-    if (err instanceof ApiError) return errorState(err.message);
-    return errorState("Error inesperado");
+  } catch {
+    // noop
   }
 }
 
-export async function confirmarOrdenAction(
-  _prev: ActionState,
-  formData: FormData,
-): Promise<ActionState> {
+export async function confirmarOrdenAction(formData: FormData): Promise<void> {
   const id = Number(formData.get("id"));
-  if (!id) return errorState("ID requerido");
+  if (!id) return;
   try {
     await fetchAPI(`/inventario/ordenes-compra/${id}/confirmar/`, {
       method: "POST",
     });
     revalidatePath("/admin/proveedores");
-    return okState("Orden confirmada");
-  } catch (err) {
-    if (err instanceof ApiError) return errorState(err.message);
-    return errorState("Error inesperado");
+  } catch {
+    // noop
   }
 }
 
-export async function recibirOrdenAction(
-  _prev: ActionState,
-  formData: FormData,
-): Promise<ActionState> {
+export async function recibirOrdenAction(formData: FormData): Promise<void> {
   const id = Number(formData.get("id"));
-  if (!id) return errorState("ID requerido");
+  if (!id) return;
   try {
     await fetchAPI(`/inventario/ordenes-compra/${id}/recibir/`, {
       method: "POST",
     });
     revalidatePath("/admin/proveedores");
-    return okState("Orden recibida y stock actualizado");
-  } catch (err) {
-    if (err instanceof ApiError) return errorState(err.message);
-    return errorState("Error inesperado");
+  } catch {
+    // noop
   }
 }

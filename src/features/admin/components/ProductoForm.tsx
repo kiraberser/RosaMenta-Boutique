@@ -1,12 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 import { createProductoAction } from "@features/admin/actions/productos";
 import type { Categoria, Marca } from "@features/admin/types";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 type Option = { id: number; nombre: string };
 
@@ -63,7 +63,7 @@ export function ProductoForm({
   marcas: (Marca | Option)[];
 }) {
   const router = useRouter();
-  const [state, action] = useActionState(createProductoAction, {
+  const [state, action] = useCompatActionState(createProductoAction, {
     success: false,
     message: "",
   });

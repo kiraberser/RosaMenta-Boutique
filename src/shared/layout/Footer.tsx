@@ -17,20 +17,20 @@ export function Footer() {
               Moda y accesorios seleccionados con cariño. Envíos a todo México.
             </p>
             <div className="mt-5 flex gap-3">
-              <a
-                href="#"
+              <Link
+                href="https://www.instagram.com/rosaymenta_boutique/"
                 aria-label="Instagram"
                 className="rounded-full border border-neutral-300 p-2 transition hover:border-rosa-500 hover:text-rosa-500"
               >
                 <Instagram className="h-4 w-4" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 aria-label="Facebook"
                 className="rounded-full border border-neutral-300 p-2 transition hover:border-rosa-500 hover:text-rosa-500"
               >
                 <Facebook className="h-4 w-4" />
-              </a>
+              </Link>
             </div>
           </div>
 

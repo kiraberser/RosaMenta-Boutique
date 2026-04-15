@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 const container = {
@@ -18,7 +19,10 @@ const item = {
 };
 
 export function Hero() {
-  const reduce = useReducedMotion();
+  const reduceRaw = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const reduce = mounted ? reduceRaw : false;
 
   return (
     <section className="relative overflow-hidden">

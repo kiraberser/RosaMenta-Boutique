@@ -1,21 +1,42 @@
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from core.cloudinary_utils import (
     CloudinaryUploadError,
     upload_image,
     validate_image,
+    with_delivery_transform,
 )
 
 from .models import Direccion, Usuario
+
+
+class EmailOrUsernameTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """Permite login con email o username en el campo `username`."""
+
+    def validate(self, attrs):
+        identifier = attrs.get(self.username_field, "")
+        if identifier and "@" in identifier:
+            user = Usuario.objects.filter(email__iexact=identifier).first()
+            if user:
+                attrs[self.username_field] = user.username
+        return super().validate(attrs)
 
 
 class DireccionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Direccion
         fields = [
-            "id", "calle", "ciudad", "cp", "estado", "pais", "es_principal",
-            "created_at", "updated_at",
+            "id",
+            "calle",
+            "ciudad",
+            "cp",
+            "estado",
+            "pais",
+            "es_principal",
+            "created_at",
+            "updated_at",
         ]
         read_only_fields = ["id", "created_at", "updated_at"]
 
@@ -23,9 +44,12 @@ class DireccionSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and request.method == "POST":
             usuario = request.user
-            if Direccion.objects.filter(usuario=usuario).count() >= Direccion.MAX_POR_USUARIO:
+            if (
+                Direccion.objects.filter(usuario=usuario).count()
+                >= Direccion.MAX_POR_USUARIO
+            ):
                 raise serializers.ValidationError(
-                    f"Máximo {Direccion.MAX_POR_USUARIO} direcciones por usuario."
+                    f"Maximo {Direccion.MAX_POR_USUARIO} direcciones por usuario."
                 )
         return attrs
 
@@ -41,9 +65,18 @@ class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         fields = [
-            "id", "username", "email", "first_name", "last_name", "phone",
-            "avatar", "avatar_url", "is_staff", "acepta_newsletter",
-            "direcciones", "date_joined",
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "phone",
+            "avatar",
+            "avatar_url",
+            "is_staff",
+            "acepta_newsletter",
+            "direcciones",
+            "date_joined",
         ]
         read_only_fields = ["id", "is_staff", "avatar_url", "date_joined"]
 
@@ -59,7 +92,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
                 )
             except CloudinaryUploadError as exc:
                 raise serializers.ValidationError({"avatar": str(exc)})
-            instance.avatar_url = result["secure_url"]
+            instance.avatar_url = with_delivery_transform(result["secure_url"])
             instance.avatar_public_id = result["public_id"]
         return super().update(instance, validated_data)
 
@@ -71,8 +104,14 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         fields = [
-            "username", "email", "first_name", "last_name", "phone",
-            "password", "password_confirm", "acepta_newsletter",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "phone",
+            "password",
+            "password_confirm",
+            "acepta_newsletter",
         ]
         extra_kwargs = {
             "email": {"required": True, "allow_blank": False},
@@ -86,7 +125,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs["password"] != attrs.pop("password_confirm"):
-            raise serializers.ValidationError({"password": "Las contraseñas no coinciden."})
+            raise serializers.ValidationError({"password": "Las contrasenas no coinciden."})
         return attrs
 
     def create(self, validated_data):

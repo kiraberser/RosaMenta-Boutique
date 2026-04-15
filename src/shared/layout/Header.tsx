@@ -24,6 +24,7 @@ export async function Header() {
             links={NAV_LINKS}
             isAuthed={Boolean(user)}
             userName={user?.first_name}
+            isStaff={user?.is_staff ?? false}
           />
           <Link href="/" className="flex items-baseline gap-1 font-display">
             <span className="text-xl leading-none text-rosa-500 sm:text-2xl">
@@ -52,7 +53,7 @@ export async function Header() {
 
         <div className="flex items-center gap-1">
           {user ? (
-            <UserMenu userName={user.first_name} />
+            <UserMenu userName={user.first_name} isStaff={user.is_staff} />
           ) : (
             <div className="hidden items-center gap-1 sm:flex">
               <Link

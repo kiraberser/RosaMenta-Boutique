@@ -1,12 +1,15 @@
 "use client";
 
-import { useActionState } from "react";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 import { cancelarPedidoAction } from "../actions";
 import { initialActionState } from "@shared/lib/action-types";
 
 export function CancelarPedidoForm({ pedidoId }: { pedidoId: number }) {
-  const [state, action] = useActionState(cancelarPedidoAction, initialActionState);
+  const [state, action] = useCompatActionState(
+    cancelarPedidoAction,
+    initialActionState,
+  );
 
   return (
     <form

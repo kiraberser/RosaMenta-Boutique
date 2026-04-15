@@ -4,6 +4,7 @@ from core.cloudinary_utils import (
     CloudinaryUploadError,
     upload_image,
     validate_image,
+    with_delivery_transform,
 )
 
 from .models import Categoria, Marca, Producto, ProductoImagen, ProductoVariante
@@ -39,7 +40,7 @@ class MarcaSerializer(serializers.ModelSerializer):
             )
         except CloudinaryUploadError as exc:
             raise serializers.ValidationError({"logo": str(exc)})
-        instance.logo_url = result["secure_url"]
+        instance.logo_url = with_delivery_transform(result["secure_url"])
         instance.logo_public_id = result["public_id"]
         instance.save(update_fields=["logo_url", "logo_public_id"])
 
@@ -91,7 +92,7 @@ class ProductoImagenSerializer(serializers.ModelSerializer):
         except CloudinaryUploadError as exc:
             instance.delete()
             raise serializers.ValidationError({"imagen": str(exc)})
-        instance.imagen_url = result["secure_url"]
+        instance.imagen_url = with_delivery_transform(result["secure_url"])
         instance.imagen_public_id = result["public_id"]
         instance.save(update_fields=["imagen_url", "imagen_public_id"])
         return instance

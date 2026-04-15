@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef } from "react";
+import { useRef } from "react";
 import { useFormStatus } from "react-dom";
 
 import {
@@ -9,6 +9,7 @@ import {
   deleteCategoriaAction,
   deleteMarcaAction,
 } from "@features/admin/actions/catalogo";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 function SubmitBtn({ label }: { label: string }) {
   const { pending } = useFormStatus();
@@ -54,7 +55,7 @@ type Marca = { id: number; nombre: string };
 
 export function CategoriasManager({ items }: { items: Categoria[] }) {
   const formRef = useRef<HTMLFormElement>(null);
-  const [state, action] = useActionState(createCategoriaAction, {
+  const [state, action] = useCompatActionState(createCategoriaAction, {
     success: false,
     message: "",
   });
@@ -122,7 +123,7 @@ export function CategoriasManager({ items }: { items: Categoria[] }) {
 
 export function MarcasManager({ items }: { items: Marca[] }) {
   const formRef = useRef<HTMLFormElement>(null);
-  const [state, action] = useActionState(createMarcaAction, {
+  const [state, action] = useCompatActionState(createMarcaAction, {
     success: false,
     message: "",
   });
