@@ -30,7 +30,7 @@ export function buildMetadata({
       ? { index: false, follow: false, nocache: true }
       : { index: true, follow: true },
     openGraph: {
-      type,
+      type: type === "product" ? "website" : type,
       locale: SITE_LOCALE.replace("-", "_"),
       url,
       siteName: SITE_NAME,
