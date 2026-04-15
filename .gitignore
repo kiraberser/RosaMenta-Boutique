@@ -1,24 +1,37 @@
-# Logs
-logs
-*.log
+# Next.js
+.next/
+out/
+next-env.d.ts
+
+# Deps
+node_modules/
+pnpm-debug.log*
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Env
+.env
+.env.local
+.env.*.local
 
-# Editor directories and files
+# Editor
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+
+# Test
+coverage/
+
+# TypeScript
+*.tsbuildinfo
+
+# Legacy (migración Vite → Next)
+_src_vite_legacy/
+
+# Python (backend)
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.sqlite3
+backend/.env
+venv/
