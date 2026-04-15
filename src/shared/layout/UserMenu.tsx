@@ -6,7 +6,13 @@ import Link from "next/link";
 
 import { LogoutButton } from "@features/account/components/LogoutButton";
 
-export function UserMenu({ userName }: { userName: string }) {
+export function UserMenu({
+  userName,
+  isStaff = false,
+}: {
+  userName: string;
+  isStaff?: boolean;
+}) {
   return (
     <Popover.Root>
       <Popover.Trigger
@@ -22,6 +28,17 @@ export function UserMenu({ userName }: { userName: string }) {
           sideOffset={8}
           className="z-50 w-56 rounded-2xl border border-neutral-200 bg-white p-2 shadow-lg"
         >
+          {isStaff ? (
+            <>
+              <Link
+                href="/admin"
+                className="block rounded-lg bg-rosa-50 px-3 py-2 text-sm font-medium text-rosa-600 hover:bg-rosa-100"
+              >
+                Dashboard admin
+              </Link>
+              <div className="my-1 border-t border-neutral-200" />
+            </>
+          ) : null}
           <Link href="/cuenta" className="block rounded-lg px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100">
             Mi perfil
           </Link>
