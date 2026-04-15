@@ -1,0 +1,3 @@
+release: python manage.py migrate --noinput
+web: gunicorn rosa_menta.wsgi --log-file - --bind 0.0.0.0:$PORT --workers 3 --timeout 90
+worker: celery -A rosa_menta worker -l info

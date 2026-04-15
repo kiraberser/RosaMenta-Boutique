@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: 253 248 245;
+    --color-fg: 31 28 25;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: rgb(var(--color-bg));
+    color: rgb(var(--color-fg));
+    font-family: var(--font-body), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 300;
+  }
+}
