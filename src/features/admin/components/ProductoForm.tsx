@@ -82,7 +82,7 @@ export function ProductoForm({
   };
 
   return (
-    <form action={action} className="space-y-8">
+    <form action={action} className="space-y-8" encType="multipart/form-data">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <Field label="Nombre" code="01" error={getErr("nombre")}>
           <input name="nombre" required className={inputCls} />
@@ -163,6 +163,18 @@ export function ProductoForm({
         DESTACADO EN HOME
       </label>
 
+      <Field label="Imagen inicial" code="09" error={getErr("imagen")}>
+        <input
+          type="file"
+          name="imagen"
+          accept="image/*"
+          className="w-full border border-neutral-800 bg-black px-3 py-2 text-sm text-neutral-300 file:mr-3 file:border file:border-neutral-700 file:bg-black file:px-3 file:py-1.5 file:font-mono file:text-[10px] file:tracking-[0.2em] file:text-neutral-300"
+        />
+        <p className="mt-2 font-mono text-[10px] tracking-[0.2em] text-neutral-600">
+          OPCIONAL. SI LA SUBES AQUÍ, SE GUARDA COMO IMAGEN PRINCIPAL.
+        </p>
+      </Field>
+
       {!state?.success && state?.message ? (
         <p className="border border-[#D71921] bg-[#D71921]/10 px-4 py-3 font-mono text-xs tracking-[0.2em] text-[#D71921]">
           [ERROR] {state.message}
@@ -171,7 +183,7 @@ export function ProductoForm({
 
       <div className="flex items-center justify-between gap-4 border-t border-neutral-900 pt-6">
         <p className="font-mono text-[10px] tracking-[0.25em] text-neutral-600">
-          SE CREARÁ EN MODO BORRADOR. ACTIVA TRAS SUBIR 4 IMÁGENES.
+          SE CREA EN BORRADOR. SUBE 4 IMÁGENES PARA ACTIVAR.
         </p>
         <SubmitButton />
       </div>
