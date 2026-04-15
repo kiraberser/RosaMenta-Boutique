@@ -1,6 +1,8 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useFormState } from "react-dom";
 
 import { FieldError } from "@features/auth/components/FieldError";
 import { SubmitButton } from "@features/auth/components/SubmitButton";
@@ -16,7 +18,10 @@ const selectCls =
   "mt-1 w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-rosa-500";
 
 export function CheckoutForm({ direcciones }: { direcciones: Direccion[] }) {
-  const [state, action] = useActionState(crearPedidoAction, initialActionState);
+  const [state, action] = (React.useActionState ?? useFormState)(
+    crearPedidoAction,
+    initialActionState,
+  );
   const [showNew, setShowNew] = useState(direcciones.length === 0);
   const subtotal = useCartStore((s) => s.subtotal());
   const count = useCartStore((s) => s.totalItems());

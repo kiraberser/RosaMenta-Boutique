@@ -1,7 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
+import * as React from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
 import {
   toggleActivoAction,
@@ -65,7 +65,7 @@ export function ProductoEditForm({
   categorias: Categoria[];
   marcas: Marca[];
 }) {
-  const [state, action] = useActionState(updateProductoAction, {
+  const [state, action] = (React.useActionState ?? useFormState)(updateProductoAction, {
     success: false,
     message: "",
   });

@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useRef } from "react";
-import { useFormStatus } from "react-dom";
+import * as React from "react";
+import { useRef } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
 import {
   createVarianteAction,
@@ -54,7 +55,7 @@ export function VariantesManager({
   variantes: Variante[];
 }) {
   const formRef = useRef<HTMLFormElement>(null);
-  const [state, action] = useActionState(createVarianteAction, {
+  const [state, action] = (React.useActionState ?? useFormState)(createVarianteAction, {
     success: false,
     message: "",
   });

@@ -1,9 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
-import { useRouter } from "next/navigation";
+import * as React from "react";
 import { useEffect } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { useRouter } from "next/navigation";
 
 import { createProductoAction } from "@features/admin/actions/productos";
 import type { Categoria, Marca } from "@features/admin/types";
@@ -63,7 +63,7 @@ export function ProductoForm({
   marcas: (Marca | Option)[];
 }) {
   const router = useRouter();
-  const [state, action] = useActionState(createProductoAction, {
+  const [state, action] = (React.useActionState ?? useFormState)(createProductoAction, {
     success: false,
     message: "",
   });

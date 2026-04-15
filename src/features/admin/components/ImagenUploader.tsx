@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useActionState, useRef } from "react";
-import { useFormStatus } from "react-dom";
+import * as React from "react";
+import { useRef } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
 import {
   deleteImagenAction,
@@ -51,10 +52,13 @@ export function ImagenUploader({
   imagenes: Imagen[];
 }) {
   const uploadRef = useRef<HTMLFormElement>(null);
-  const [uploadState, uploadAction] = useActionState(uploadImagenAction, {
-    success: false,
-    message: "",
-  });
+  const [uploadState, uploadAction] = (React.useActionState ?? useFormState)(
+    uploadImagenAction,
+    {
+      success: false,
+      message: "",
+    },
+  );
 
   return (
     <div className="space-y-6">

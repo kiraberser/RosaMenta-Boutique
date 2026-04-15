@@ -1,7 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
+import * as React from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
 import { cambiarEstadoPedidoAction } from "@features/admin/actions/productos";
 
@@ -27,10 +27,13 @@ export function PedidoEstadoForm({
   pedidoId: number;
   actual: string;
 }) {
-  const [state, action] = useActionState(cambiarEstadoPedidoAction, {
-    success: false,
-    message: "",
-  });
+  const [state, action] = (React.useActionState ?? useFormState)(
+    cambiarEstadoPedidoAction,
+    {
+      success: false,
+      message: "",
+    },
+  );
 
   return (
     <form

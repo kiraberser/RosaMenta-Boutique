@@ -1,6 +1,8 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import * as React from "react";
+import { useEffect, useRef } from "react";
+import { useFormState } from "react-dom";
 
 import { FieldError } from "@features/auth/components/FieldError";
 import { SubmitButton } from "@features/auth/components/SubmitButton";
@@ -12,7 +14,10 @@ const inputCls =
   "mt-1 w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-rosa-500";
 
 export function DireccionForm({ onCreated }: { onCreated?: () => void }) {
-  const [state, action] = useActionState(crearDireccionAction, initialActionState);
+  const [state, action] = (React.useActionState ?? useFormState)(
+    crearDireccionAction,
+    initialActionState,
+  );
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {

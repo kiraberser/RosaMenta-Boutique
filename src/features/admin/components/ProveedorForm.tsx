@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useRef } from "react";
-import { useFormStatus } from "react-dom";
+import * as React from "react";
+import { useRef } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
 import {
   createProveedorAction,
@@ -38,7 +39,7 @@ function ToggleBtn({ activo }: { activo: boolean }) {
 
 export function NewProveedorForm() {
   const ref = useRef<HTMLFormElement>(null);
-  const [state, action] = useActionState(createProveedorAction, {
+  const [state, action] = (React.useActionState ?? useFormState)(createProveedorAction, {
     success: false,
     message: "",
   });

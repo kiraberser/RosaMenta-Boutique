@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useRef } from "react";
-import { useFormStatus } from "react-dom";
+import * as React from "react";
+import { useRef } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
 import {
   createCategoriaAction,
@@ -54,7 +55,7 @@ type Marca = { id: number; nombre: string };
 
 export function CategoriasManager({ items }: { items: Categoria[] }) {
   const formRef = useRef<HTMLFormElement>(null);
-  const [state, action] = useActionState(createCategoriaAction, {
+  const [state, action] = (React.useActionState ?? useFormState)(createCategoriaAction, {
     success: false,
     message: "",
   });
@@ -122,7 +123,7 @@ export function CategoriasManager({ items }: { items: Categoria[] }) {
 
 export function MarcasManager({ items }: { items: Marca[] }) {
   const formRef = useRef<HTMLFormElement>(null);
-  const [state, action] = useActionState(createMarcaAction, {
+  const [state, action] = (React.useActionState ?? useFormState)(createMarcaAction, {
     success: false,
     message: "",
   });
