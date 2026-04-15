@@ -48,6 +48,16 @@ function apiErrorToFields(err: ApiError): FieldErrors | undefined {
   return undefined;
 }
 
+function isFileLike(value: FormDataEntryValue | null): value is File {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "name" in value &&
+    "size" in value &&
+    "arrayBuffer" in value
+  );
+}
+
 export async function createProductoAction(
   _prev: ActionState<{ id: number }>,
   formData: FormData,
@@ -69,12 +79,36 @@ export async function createProductoAction(
   }
 
   try {
+    const imagen = formData.get("imagen");
     const created = await fetchAPI<{ id: number }>("/catalogo/productos/", {
       method: "POST",
       body: { ...parsed.data, activo: false },
     });
+
+    let imagenError = "";
+    if (isFileLike(imagen) && imagen.size > 0) {
+      const payload = new FormData();
+      payload.append("producto", String(created.id));
+      payload.append("imagen", imagen);
+      payload.append("orden", "0");
+      payload.append("es_principal", "true");
+      try {
+        await fetchAPI("/catalogo/imagenes/", {
+          method: "POST",
+          body: payload,
+        });
+      } catch (e) {
+        if (e instanceof ApiError) imagenError = e.message;
+        else imagenError = "No se pudo subir la imagen inicial";
+      }
+    }
+
     revalidatePath("/admin/productos");
-    return okState("Producto creado", { id: created.id });
+    revalidatePath(`/admin/productos/${created.id}`);
+    return okState(
+      imagenError ? `Producto creado, pero imagen pendiente: ${imagenError}` : "Producto creado",
+      { id: created.id },
+    );
   } catch (e) {
     if (e instanceof ApiError) {
       return errorState<{ id: number }>(e.message, apiErrorToFields(e));

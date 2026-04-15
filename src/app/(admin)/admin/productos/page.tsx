@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { ADMIN_PAGE_SIZE, listProductos } from "@features/admin/api";
 import { DataTable } from "@features/admin/components/DataTable";
@@ -67,6 +68,26 @@ export default async function ProductosPage({
         rows={data.results}
         empty={search ? "Sin coincidencias" : "Sin productos"}
         columns={[
+          {
+            key: "imagen",
+            header: "Imagen",
+            render: (p) =>
+              p.imagen_principal ? (
+                <div className="h-12 w-12 overflow-hidden border border-neutral-800 bg-neutral-950">
+                  <Image
+                    src={p.imagen_principal}
+                    alt={p.nombre}
+                    width={48}
+                    height={48}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="flex h-12 w-12 items-center justify-center border border-dashed border-neutral-800 bg-neutral-950 font-mono text-[9px] tracking-[0.2em] text-neutral-600">
+                  SIN IMG
+                </div>
+              ),
+          },
           {
             key: "sku",
             header: "SKU",
