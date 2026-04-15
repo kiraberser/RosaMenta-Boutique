@@ -7,6 +7,18 @@ from django.conf import settings
 ALLOWED_IMAGE_FORMATS = {"jpg", "jpeg", "png", "webp"}
 MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024  # 5 MB
 
+DEFAULT_DELIVERY_TRANSFORM = "q_auto/f_auto"
+
+
+def with_delivery_transform(secure_url: str, transform: str = DEFAULT_DELIVERY_TRANSFORM) -> str:
+    """Inserta transformaciones de entrega después de `/upload/` (idempotente)."""
+    if not secure_url or "/upload/" not in secure_url:
+        return secure_url
+    marker = f"/upload/{transform}/"
+    if marker in secure_url:
+        return secure_url
+    return secure_url.replace("/upload/", marker, 1)
+
 
 class CloudinaryUploadError(Exception):
     pass
