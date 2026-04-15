@@ -1,12 +1,11 @@
 "use client";
 
-import * as React from "react";
 import { useEffect, useRef } from "react";
-import { useFormState } from "react-dom";
 
 import { FieldError } from "@features/auth/components/FieldError";
 import { SubmitButton } from "@features/auth/components/SubmitButton";
 import { initialActionState } from "@shared/lib/action-types";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 import { crearDireccionAction } from "../actions";
 
@@ -14,7 +13,7 @@ const inputCls =
   "mt-1 w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-rosa-500";
 
 export function DireccionForm({ onCreated }: { onCreated?: () => void }) {
-  const [state, action] = (React.useActionState ?? useFormState)(
+  const [state, action] = useCompatActionState(
     crearDireccionAction,
     initialActionState,
   );

@@ -1,8 +1,6 @@
 "use client";
 
-import * as React from "react";
 import { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
 
 import { FieldError } from "@features/auth/components/FieldError";
 import { SubmitButton } from "@features/auth/components/SubmitButton";
@@ -11,6 +9,7 @@ import { DireccionForm } from "@features/direcciones/components/DireccionForm";
 import { useCartStore } from "@features/cart/store/cartStore";
 import { initialActionState } from "@shared/lib/action-types";
 import { formatPrice } from "@shared/lib/format";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 import { crearPedidoAction } from "../actions";
 
@@ -18,7 +17,7 @@ const selectCls =
   "mt-1 w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-rosa-500";
 
 export function CheckoutForm({ direcciones }: { direcciones: Direccion[] }) {
-  const [state, action] = (React.useActionState ?? useFormState)(
+  const [state, action] = useCompatActionState(
     crearPedidoAction,
     initialActionState,
   );

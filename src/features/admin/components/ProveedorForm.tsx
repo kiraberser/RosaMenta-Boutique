@@ -1,13 +1,13 @@
 "use client";
 
-import * as React from "react";
 import { useRef } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 
 import {
   createProveedorAction,
   toggleProveedorAction,
 } from "@features/admin/actions/proveedores";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 function SubmitBtn() {
   const { pending } = useFormStatus();
@@ -39,7 +39,7 @@ function ToggleBtn({ activo }: { activo: boolean }) {
 
 export function NewProveedorForm() {
   const ref = useRef<HTMLFormElement>(null);
-  const [state, action] = (React.useActionState ?? useFormState)(createProveedorAction, {
+  const [state, action] = useCompatActionState(createProveedorAction, {
     success: false,
     message: "",
   });

@@ -1,11 +1,10 @@
 "use client";
 
-import * as React from "react";
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useFormState } from "react-dom";
 
 import { initialActionState } from "@shared/lib/action-types";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 import { loginAction } from "../actions";
 import { FieldError } from "./FieldError";
@@ -14,7 +13,7 @@ import { SubmitButton } from "./SubmitButton";
 const inputCls =
   "mt-1 w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-rosa-500";
 export function LoginForm() {
-  const [state, action] = (React.useActionState ?? useFormState)(
+  const [state, action] = useCompatActionState(
     loginAction,
     initialActionState,
   );

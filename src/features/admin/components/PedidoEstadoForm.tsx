@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 
 import { cambiarEstadoPedidoAction } from "@features/admin/actions/productos";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 const ESTADOS = ["CREADO", "PAGADO", "ENVIADO", "ENTREGADO", "CANCELADO"];
 
@@ -27,7 +27,7 @@ export function PedidoEstadoForm({
   pedidoId: number;
   actual: string;
 }) {
-  const [state, action] = (React.useActionState ?? useFormState)(
+  const [state, action] = useCompatActionState(
     cambiarEstadoPedidoAction,
     {
       success: false,

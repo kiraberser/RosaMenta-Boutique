@@ -1,10 +1,10 @@
 "use client";
 
-import * as React from "react";
 import { useEffect, useRef } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 
 import { initialActionState } from "@shared/lib/action-types";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 import { suscribirNewsletterAction } from "../actions";
 
@@ -27,7 +27,7 @@ type Props = {
 };
 
 export function NewsletterForm({ origen = "FOR", variant = "inline" }: Props) {
-  const [state, action] = (React.useActionState ?? useFormState)(
+  const [state, action] = useCompatActionState(
     suscribirNewsletterAction,
     initialActionState,
   );

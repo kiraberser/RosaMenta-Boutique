@@ -1,13 +1,13 @@
 "use client";
 
-import * as React from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 
 import {
   toggleActivoAction,
   updateProductoAction,
 } from "@features/admin/actions/productos";
 import type { Categoria, Marca } from "@features/admin/types";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 type Producto = {
   id: number;
@@ -65,7 +65,7 @@ export function ProductoEditForm({
   categorias: Categoria[];
   marcas: Marca[];
 }) {
-  const [state, action] = (React.useActionState ?? useFormState)(updateProductoAction, {
+  const [state, action] = useCompatActionState(updateProductoAction, {
     success: false,
     message: "",
   });

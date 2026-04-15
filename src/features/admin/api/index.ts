@@ -213,17 +213,20 @@ export async function listUsuarios(
     page_size: String(ADMIN_PAGE_SIZE),
   });
   if (search) q.set("search", search);
-  return fetchAPI(`/auth/?${q.toString()}`, NO_CACHE).catch(
+  return fetchAPI<AdminUsuario[] | Paginated<AdminUsuario>>(
+    `/auth/users/?${q.toString()}`,
+    NO_CACHE,
+  ).catch(
     () => [] as AdminUsuario[],
   );
 }
 
 export async function listCategorias(): Promise<Categoria[] | Paginated<Categoria>> {
-  return fetchAPI("/catalogo/categorias/", NO_CACHE);
+  return fetchAPI<Categoria[] | Paginated<Categoria>>("/catalogo/categorias/", NO_CACHE);
 }
 
 export async function listMarcas(): Promise<Marca[] | Paginated<Marca>> {
-  return fetchAPI("/catalogo/marcas/", NO_CACHE);
+  return fetchAPI<Marca[] | Paginated<Marca>>("/catalogo/marcas/", NO_CACHE);
 }
 
 export async function listProveedores(

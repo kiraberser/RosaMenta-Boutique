@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import * as React from "react";
 import { useRef } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 
 import {
   deleteImagenAction,
   setImagenPrincipalAction,
   uploadImagenAction,
 } from "@features/admin/actions/productos";
+import { useCompatActionState } from "@shared/lib/use-compat-action-state";
 
 type Imagen = {
   id: number;
@@ -52,13 +52,10 @@ export function ImagenUploader({
   imagenes: Imagen[];
 }) {
   const uploadRef = useRef<HTMLFormElement>(null);
-  const [uploadState, uploadAction] = (React.useActionState ?? useFormState)(
-    uploadImagenAction,
-    {
-      success: false,
-      message: "",
-    },
-  );
+  const [uploadState, uploadAction] = useCompatActionState(uploadImagenAction, {
+    success: false,
+    message: "",
+  });
 
   return (
     <div className="space-y-6">
