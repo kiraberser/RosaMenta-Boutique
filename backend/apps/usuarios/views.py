@@ -1,5 +1,5 @@
-from rest_framework import generics, status, viewsets
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework import filters, generics, status, viewsets
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
@@ -8,6 +8,14 @@ from core.permissions import IsOwnerOrAdmin
 
 from .models import Direccion, Usuario
 from .serializers import DireccionSerializer, RegisterSerializer, UsuarioSerializer
+
+
+class UsuariosListView(generics.ListAPIView):
+    serializer_class = UsuarioSerializer
+    permission_classes = [IsAdminUser]
+    queryset = Usuario.objects.all().order_by("-date_joined")
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["username", "email", "first_name", "last_name"]
 
 
 class RegisterView(generics.CreateAPIView):
