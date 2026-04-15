@@ -10,7 +10,9 @@ export const dynamic = "force-dynamic";
 
 function unwrap<T>(x: T[] | Paginated<T>): { rows: T[]; count: number } {
   if (Array.isArray(x)) return { rows: x, count: x.length };
-  return { rows: x.results, count: x.count };
+  const rows = Array.isArray(x?.results) ? x.results : [];
+  const count = typeof x?.count === "number" ? x.count : rows.length;
+  return { rows, count };
 }
 
 export default async function UsuariosPage({

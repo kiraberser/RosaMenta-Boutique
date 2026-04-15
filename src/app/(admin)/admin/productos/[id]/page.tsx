@@ -15,7 +15,8 @@ import type { Categoria, Marca, Paginated } from "@features/admin/types";
 export const dynamic = "force-dynamic";
 
 function unwrap<T>(x: T[] | Paginated<T>): T[] {
-  return Array.isArray(x) ? x : x.results;
+  if (Array.isArray(x)) return x;
+  return Array.isArray(x?.results) ? x.results : [];
 }
 
 export default async function ProductoEditPage({
