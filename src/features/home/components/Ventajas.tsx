@@ -1,14 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Truck, ShieldCheck, Sparkles, HeartHandshake } from "lucide-react";
+import {  ShieldCheck, Sparkles, HeartHandshake } from "lucide-react";
 
 const ITEMS = [
-  {
-    icon: Truck,
-    title: "Envíos a todo México",
-    desc: "Gratis en CDMX desde $999 MXN.",
-  },
   {
     icon: ShieldCheck,
     title: "Compra segura",
