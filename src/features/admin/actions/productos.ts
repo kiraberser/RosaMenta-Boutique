@@ -20,7 +20,7 @@ const productoBaseSchema = z.object({
     .union([z.coerce.number().positive(), z.literal("")])
     .optional()
     .transform((v) => (v === "" || v === undefined ? null : v)),
-  estado: z.enum(["NUE", "USA", "REA"]).default("NUE"),
+  estado: z.enum(["NVO", "UBS", "REC"]).default("NVO"),
   categoria_id: z.coerce.number().int().positive(),
   marca_id: z.coerce.number().int().positive(),
   destacado: z.boolean().default(false),
@@ -68,7 +68,7 @@ export async function createProductoAction(
     descripcion: formData.get("descripcion"),
     precio: formData.get("precio"),
     precio_descuento: formData.get("precio_descuento") ?? "",
-    estado: formData.get("estado") ?? "NUE",
+    estado: formData.get("estado") ?? "NVO",
     categoria_id: formData.get("categoria_id"),
     marca_id: formData.get("marca_id"),
     destacado: formData.get("destacado") === "on",
@@ -130,7 +130,7 @@ export async function updateProductoAction(
     descripcion: formData.get("descripcion"),
     precio: formData.get("precio"),
     precio_descuento: formData.get("precio_descuento") ?? "",
-    estado: formData.get("estado") ?? "NUE",
+    estado: formData.get("estado") ?? "NVO",
     categoria_id: formData.get("categoria_id"),
     marca_id: formData.get("marca_id"),
     destacado: formData.get("destacado") === "on",

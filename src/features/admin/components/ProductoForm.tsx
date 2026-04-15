@@ -127,10 +127,10 @@ export function ProductoForm({
           />
         </Field>
         <Field label="Estado" code="06">
-          <select name="estado" defaultValue="NUE" className={inputCls}>
-            <option value="NUE">Nuevo</option>
-            <option value="USA">Usado</option>
-            <option value="REA">Reacondicionado</option>
+          <select name="estado" defaultValue="NVO" className={inputCls}>
+            <option value="NVO">Nuevo</option>
+            <option value="UBS">Usado</option>
+            <option value="REC">Reacondicionado</option>
           </select>
         </Field>
       </div>

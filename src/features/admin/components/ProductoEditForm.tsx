@@ -156,9 +156,9 @@ export function ProductoEditForm({
               defaultValue={producto.estado}
               className={input}
             >
-              <option value="NUE">Nuevo</option>
-              <option value="USA">Usado</option>
-              <option value="REA">Reacondicionado</option>
+              <option value="NVO">Nuevo</option>
+              <option value="UBS">Usado</option>
+              <option value="REC">Reacondicionado</option>
             </select>
           </FieldLbl>
         </div>
